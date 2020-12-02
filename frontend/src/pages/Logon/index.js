@@ -22,12 +22,13 @@ export default function Logon(){
         try{
             const response = await api.post('sessions', { email, password });
 
-            localStorage.setItem('researcherEmail', email);
-            localStorage.setItem('researcherName', response.data.name);
-            localStorage.setItem('researcherId', response.data.id);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userName', response.data.name);
+            localStorage.setItem('userId', response.data.id);
+            localStorage.setItem('userTipo', response.data.tipo);
 
             //faz o direcionamento de rotas quando não podemos usar <Link />
-            history.push('/profile');
+            history.push('/homepage');
         }catch(err){
             alert('Email ou senha incorretos, tente novamente.');
         }
@@ -36,11 +37,11 @@ export default function Logon(){
     return (
         <div className="logon-container">
             <section className="form">
-                <img src={logoImg} alt="College Labs"/>
+                <img src={logoImg} alt="HomeServices"/>
 
                 <form onSubmit={handleLogin}>
                     {/*<h1 id = "logon">Seja Bem-Vindo!</h1>*/}
-                    <h1>Faça seu logon!</h1>
+                    <h1>Faça seu login!</h1>
                     <input 
                         placeholder="Seu email"
                         value = {email}
@@ -57,13 +58,9 @@ export default function Logon(){
 
                     <Link className="back-link" to="/register">
                         <FiLogIn size={16} color='#E02041' />
-                        Seja um Pesquisador
+                        Cadastre-se
                     </Link>
 
-                    <Link className="back-link" to="/registerUser" id = "back-link2">
-                        <FiLogIn size={16} color='#E02041' />
-                        Tenha acesso a pesquisas 
-                    </Link>
                 </form>
             </section>
 

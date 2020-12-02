@@ -8,32 +8,30 @@ import './styles.css';
 
 import logoImg from '../../assets/logo.png';
 
-export default function NewIncident(){
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+export default function ServicoDisponivel(){
+    const [nomeServico, setNomeServico] = useState('');
+    const [precoMedio, setPrecoMedio] = useState('');
+    const [detalhes, setDetalhes] = useState('');
 
     const history = useHistory();
 
-    const researcherId = localStorage.getItem('researcherId'); 
-    console.log(researcherId);
+    const prestadorId = localStorage.getItem('userId'); 
 
     async function handleNewPost(e){
         //previnir comportamento padrão do form, recarregando a pag
         e.preventDefault();
 
         const data = {
-            title, 
-            description,  
+            nomeServico, 
+            precoMedio,
+            detalhes,
+            prestadorId
         };
 
         try{
-            await api.post('posts', data, {
-                headers: {
-                    Authorization: researcherId, 
-                }
-            })
+            await api.post('servicoDisponivel', data)
 
-            history.push('/profile'); 
+            history.push('/homepage'); 
         }catch(err){
             alert('Erro ao cadastrar post, tente de novamente. ')
         }
@@ -45,8 +43,8 @@ export default function NewIncident(){
                 <section>
                     <img src={logoImg} alt="College Labs"/>
 
-                    <h1>Criar novo post</h1>
-                    <p>Escreva o post</p>
+                    <h1>Cadastrar novo servico</h1>
+                    <p>Detalhe o servico</p>
 
                     <Link className="back-link" to="/profile">
                         <FiArrowLeft size={16} color='#E02041' />
@@ -56,15 +54,23 @@ export default function NewIncident(){
 
                 <form onSubmit={handleNewPost}>
                     <input 
-                        placeholder="Título do post"
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
+                        placeholder="Nome do Serviço"
+                        value={nomeServico}
+                        onChange={e => setNomeServico(e.target.value)}
+                    />
+
+                    <input 
+                        type="number"
+                        step=".01"
+                        placeholder="Preço médio"
+                        value={precoMedio}
+                        onChange={e => setPrecoMedio(e.target.value)}
                     />
 
                     <textarea 
-                        placeholder="Descrição"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
+                        placeholder="Detalhes"
+                        value={detalhes}
+                        onChange={e => setDetalhes(e.target.value)}
                     />
 
                     <button className="button" type="submit">Cadastrar</button>

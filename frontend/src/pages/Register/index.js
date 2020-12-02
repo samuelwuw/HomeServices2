@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Select from 'react-select'
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -11,14 +12,12 @@ export default function Register(){
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [birthdate, setBirthdate] = useState('');
-    const [workdate, setWorkdate] = useState('');
-    const [city, setCity] = useState('');
-    const [uf, setUf] = useState('');
-    const [institution, setInstitution] = useState('');
-    const [graduationlvl, setGraduationlvl] = useState('');
-    const [graduationinstitution, setGraduationinstitution] = useState('');
-    const [latteslink, setLatteslink] = useState('');
+    const [tipo, setTipo] = useState('');
+    
+    const options = [
+        { value: "prestador", label: "Prestador de serviços" },
+        { value: "contratante", label: "Contratante" },
+      ]
 
     const history = useHistory();
 
@@ -30,21 +29,15 @@ export default function Register(){
             name, 
             password,
             email, 
-            birthdate,
-            workdate, 
-            city, 
-            uf,
-            institution,
-            graduationlvl,
-            graduationinstitution,
-            latteslink
+            tipo           
         };
         
         try{
                 //axios já envia em json
-            const response = await api.post('researchers', data);
+            const response = await api.post('users', data);
 
-            alert(`Seu id de acesso: ${response.data.id}`);
+            alert("Cadastro realizado com sucesso!");
+            console.log(response);
 
             history.push('/');
         }catch(err){
@@ -83,58 +76,17 @@ export default function Register(){
                         placeholder="E-mail"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                    />
-                    <input 
-                        placeholder="Data de Nascimento"
-                        value={birthdate}
-                        onChange={e => setBirthdate(e.target.value)}
-                    />
-                    <input 
-                        placeholder="Periodo de trabalho"
-                        value={workdate}
-                        onChange={e => setWorkdate(e.target.value)}
-                    />
-                    <input 
-                        placeholder="Cidade" 
-                        value={city}
-                        onChange={e => setCity(e.target.value)}
-                        />
+                    />                   
+                    <Select 
+                        options={options}
+                        value={options.find(obj => obj.value === tipo)}
+                        onChange={e => setTipo(e.value)}
+                    />                 
                  
                    
-                    <button className="button" type="submit">Cadastrar</button>
-                    
+                    <button className="button" type="submit">Cadastrar</button>                    
 
-                </form>
-                <form onSubmit={handleRegister} id = "form2">
-                
-                <input 
-                        placeholder="Estado" 
-                        value={uf}
-                        onChange={e => setUf(e.target.value)}
-                        />
-                    <input 
-                        placeholder="Instituição" 
-                        value={institution}
-                        onChange={e => setInstitution(e.target.value)}
-                        />
-                     <input 
-                        placeholder="Nivel de graduação" 
-                        value={graduationlvl}
-                        onChange={e => setGraduationlvl(e.target.value)}
-                        />
-                    
-                    <input 
-                        placeholder="Instituição da graduação" 
-                        value={graduationinstitution}
-                        onChange={e => setGraduationinstitution(e.target.value)}
-                        />
-                     <input 
-                        placeholder="Link Lattes" 
-                        value={latteslink}
-                        onChange={e => setLatteslink(e.target.value)}
-                        />
-                </form>
-                
+                </form>                
             </div>
         </div>
     );
