@@ -10,6 +10,8 @@ import logoImg from '../../assets/logo.png';
 
 export default function HomePage(){
     const [servicos, setServicos] = useState([]);
+    const [pesquisa, setTextoPesquisa] = useState([]);
+    const [servicosPesquisados, setServicosPesquisados] = useState([]);
 
     const history = useHistory();
 
@@ -28,6 +30,21 @@ export default function HomePage(){
             setServicos(response.data);
         })
     }, [userId]);
+
+    async function handlePesquisaServico(e){
+        e.preventDefault();
+
+        const data = {
+            pesquisa
+        };
+        try{
+            await api.post('servicoDisponivelPesquisa', data).then(response => {
+                setServicosPesquisados(response.data);
+            })
+        }catch(err){
+            alert('Erro ao pesquisar');
+        }
+    }
 
     //funções com handle no começo interagem com algo do usuário
     async function handleDeletePost(id){
@@ -70,13 +87,19 @@ export default function HomePage(){
                 </button>
                 
             </header>
-            <h2>Serviços disponiveis: </h2>
+            <h2>Seus serviços disponiveis: </h2>
 
             <ul>
                 {servicos.map(post => (
                     <li key={post.id}>
                         <strong>Nome:</strong>
                         <p>{post.nomeServico}</p>
+
+                        <strong>Descrição:</strong>
+                        <p>{post.detalhes}</p>
+
+                        <strong>Preço médio:</strong>
+                        <p>{post.precoMedio}</p>
 
                         <button onClick= {() => handleDeletePost(post.id)} type="button">
                             <FiTrash2 size={20} color="#a8a8b3" />
@@ -86,7 +109,51 @@ export default function HomePage(){
             </ul>
         </div>
     );
+
+    //Homepage para o cliente
     else return(
-        <h1>EU SOU UM CONTRATANTE</h1>
-    )
+        <div className="profile-container">
+            <header>
+                <img src={logoImg} alt="College Labs"/>
+                <span>Bem vindo {userName}!</span>                
+                
+                <button type="button">
+                    <FiUser size={18} color="#E02041" />
+                </button>
+                <button onClick={handleLogout} type="button">
+                    <FiPower size={18} color="#E02041" />
+                </button>
+                
+            </header>
+            <h2>Pesquise um serviço! </h2>
+            <form onSubmit={handlePesquisaServico}>
+                <input 
+                    type="text" 
+                    name="textoPesquisa" 
+                    placeholder="" 
+                    onChange= {e => setTextoPesquisa(e.target.value)}
+                /> 
+                <button className="button" type="submit">Pesquisar</button>        
+            </form>
+
+            <ul>
+                {servicosPesquisados.map(post => (
+                    <li key={post.id}>
+                        <strong>Nome:</strong>
+                        <p>{post.nomeServico}</p>
+
+                        <strong>Descrição:</strong>
+                        <p>{post.detalhes}</p>
+
+                        <strong>Preço médio:</strong>
+                        <p>{post.precoMedio}</p>
+
+                        <button onClick= {() => handleDeletePost(post.id)} type="button">
+                            <FiTrash2 size={20} color="#a8a8b3" />
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }

@@ -46,7 +46,7 @@ export default function ServicoDisponivel(){
                     <h1>Cadastrar novo servico</h1>
                     <p>Detalhe o servico</p>
 
-                    <Link className="back-link" to="/profile">
+                    <Link className="back-link" to="/homepage">
                         <FiArrowLeft size={16} color='#E02041' />
                         Voltar para home
                     </Link>
