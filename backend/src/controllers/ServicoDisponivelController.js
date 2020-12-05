@@ -23,6 +23,17 @@ module.exports = {
         return response.json(servico);
     },
 
+    async pesquisaPorDetalhes(request, response){
+        //esquema de paginação e contagem de incidentes
+        const { pesquisa } = request.body;
+        
+        const servico = await connection('servicoDisponiveis')
+            .where('detalhes', 'like', `%${pesquisa}%` )             
+            .select('*');       
+
+        return response.json(servico);
+    },
+
     async create(request, response){
         const { nomeServico, precoMedio, detalhes, prestadorId } = request.body;
 

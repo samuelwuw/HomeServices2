@@ -84,6 +84,12 @@ routes.get('/servicoDisponivel', celebrate({
     })
 }) ,ServicoDisponivelController.index);
 
+routes.post('/servicoDisponivelPesquisa', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        pesquisa: Joi.string(),
+    })
+}), ServicoDisponivelController.pesquisaPorDetalhes);
+
 //nomeServico, precoMedio, detalhes
 routes.post('/servicoDisponivel',celebrate({
     [Segments.BODY]: Joi.object().keys({
