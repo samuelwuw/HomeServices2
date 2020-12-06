@@ -10,7 +10,7 @@ module.exports = {
         
         const servico = await connection('servicoDisponiveis')
             .join('usuarios', 'usuarios.id', '=', 'servicoDisponiveis.prestadorId') 
-            .limit(5)
+            .limit(20)
             .offset((page - 1) * 5)
             .select([
                 'servicoDisponiveis.*',
