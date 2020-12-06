@@ -30,6 +30,10 @@ export default function HomePage(){
             setServicos(response.data);
             console.log("servico", response.data);
         })
+
+        api.get('servicoDisponivel').then(response => {
+            setServicosPesquisados(response.data);
+        })
     }, [userId]);
 
     async function handlePesquisaServico(e){
@@ -153,9 +157,6 @@ export default function HomePage(){
                         <p>{post.detalhes}</p>
 
                         <strong>Preço médio:</strong>
-                        <p>{post.precoMedio}</p>
-
-                        <strong>Prestador:</strong>
                         <p>{post.precoMedio}</p>
 
                         <button onClick= {() => handleGoToPrestador(post.prestadorId)} type="button">

@@ -11,6 +11,7 @@ import logoImg from '../../assets/logo.png';
 export default function Register(){
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [whatsapp, setWhatsapp] = useState('');
     const [email, setEmail] = useState('');
     const [tipo, setTipo] = useState('');
     
@@ -28,6 +29,7 @@ export default function Register(){
         const data = {
             name, 
             password,
+            whatsapp,
             email, 
             tipo           
         };
@@ -76,6 +78,12 @@ export default function Register(){
                         placeholder="E-mail"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
+                    />                   
+                    <input 
+                        type="text" 
+                        placeholder="Contato (whatsapp)"
+                        value={whatsapp}
+                        onChange={e => setWhatsapp(e.target.value)}
                     />                   
                     <Select 
                         options={options}
