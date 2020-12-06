@@ -5,6 +5,7 @@ import Logon from './pages/Logon';
 import Register from './pages/Register';
 import HomePage from './pages/HomePage';
 import ServicoDisponivel from './pages/ServicoDisponivel';
+import MostraPrestador from './pages/MostraPrestador';
 
 export default function Routes(){
     return(
@@ -14,6 +15,7 @@ export default function Routes(){
                 <Route path="/register" component={Register} />
                 <Route path="/homepage" component={HomePage} />
                 <Route path="/servicoDisponivel/new" component={ServicoDisponivel} />
+                <Route path="/mostraPrestador" component={MostraPrestador} />
             </Switch>
         </BrowserRouter>
     );

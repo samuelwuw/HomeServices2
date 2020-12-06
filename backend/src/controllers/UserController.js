@@ -9,13 +9,14 @@ module.exports = {
     },
 
     async create(request, response) {
-        const { name, password, email, tipo } = request.body;
+        const { name, password, whatsapp ,email, tipo } = request.body;
 
         const id = generateUniqueId();
 
         await connection('usuarios').insert({
             name, 
             password, 
+            whatsapp,
             id,
             email, 
             tipo
@@ -26,11 +27,12 @@ module.exports = {
 
     async update(request, response){
         const { id } = request.params;
-        const  { name, password, email } = request.body;
+        const  { name, password, whatsapp,email } = request.body;
 
         await connection('usuarios').where('id', id).update({
             name, 
             password, 
+            whatsapp,
             email
         });
 

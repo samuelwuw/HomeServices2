@@ -28,6 +28,7 @@ export default function HomePage(){
             }
         }).then(response => {
             setServicos(response.data);
+            console.log("servico", response.data);
         })
     }, [userId]);
 
@@ -46,6 +47,11 @@ export default function HomePage(){
         }
     }
 
+    async function handleGoToPrestador(prestadorId){
+        localStorage.setItem("prestadorAlvo", prestadorId);
+        history.push('/mostraPrestador');
+    }
+
     //funções com handle no começo interagem com algo do usuário
     async function handleDeletePost(id){
         try{
@@ -56,7 +62,7 @@ export default function HomePage(){
             });
 
             //faz varredura no array de incidents, procura o que tem o id de delete, e o remove dos incidents
-            setServicos(servicos.filter(post => post.id !==  id))
+            setServicos(servicos.filter(post => post.servicoId !==  id))
         }catch(err){
             alert('Erro ao deletar caso, tente novamente. ');
         }
@@ -68,6 +74,7 @@ export default function HomePage(){
         history.push('/');
     }
 
+    //--------------------------------------------------------------------------------------------PRESTADOR
     if(userTipo === "prestador") return (
         <div className="profile-container">
             <header>
@@ -101,7 +108,7 @@ export default function HomePage(){
                         <strong>Preço médio:</strong>
                         <p>{post.precoMedio}</p>
 
-                        <button onClick= {() => handleDeletePost(post.id)} type="button">
+                        <button onClick= {() => handleDeletePost(post.servicoId)} type="button">
                             <FiTrash2 size={20} color="#a8a8b3" />
                         </button>
                     </li>
@@ -110,7 +117,7 @@ export default function HomePage(){
         </div>
     );
 
-    //Homepage para o cliente
+    //-----------------------------------------------------------------------------------Homepage para o cliente
     else return(
         <div className="profile-container">
             <header>
@@ -138,7 +145,7 @@ export default function HomePage(){
 
             <ul>
                 {servicosPesquisados.map(post => (
-                    <li key={post.id}>
+                    <li key={post.servicoId}>
                         <strong>Nome:</strong>
                         <p>{post.nomeServico}</p>
 
@@ -148,9 +155,12 @@ export default function HomePage(){
                         <strong>Preço médio:</strong>
                         <p>{post.precoMedio}</p>
 
-                        <button onClick= {() => handleDeletePost(post.id)} type="button">
-                            <FiTrash2 size={20} color="#a8a8b3" />
-                        </button>
+                        <strong>Prestador:</strong>
+                        <p>{post.precoMedio}</p>
+
+                        <button onClick= {() => handleGoToPrestador(post.prestadorId)} type="button">
+                            <FiUser size={20} color="#a8a8b3" />
+                        </button> 
                     </li>
                 ))}
             </ul>

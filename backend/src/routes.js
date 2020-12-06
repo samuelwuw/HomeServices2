@@ -5,6 +5,7 @@ const { celebrate, Segments, Joi } = require('celebrate');
 
 const ProfileDisponivelController = require('./controllers/ProfileDisponivelController');
 const ProfileFeitoController = require('./controllers/ProfileFeitoController');
+const ProfilePrestadorController = require('./controllers/ProfilePrestadorController');
 const ServicoDisponivelController = require('./controllers/ServicoDisponivelController');
 const ServicoFeitoController = require('./controllers/ServicoFeitoController');
 const SessionController = require('./controllers/SessionController');
@@ -33,6 +34,16 @@ routes.get('/profileFeito', celebrate({
     }).unknown(),
 }), ProfileFeitoController.index);
 
+//------------------------------------------------PROFILE PRESTADOR
+
+routes.get('/profilePrestador', ProfilePrestadorController.index);
+
+routes.get('/prestadorById', celebrate({
+    [Segments.HEADERS]: Joi.object({
+        authorization: Joi.string().required(),
+    }).unknown(),
+}), ProfilePrestadorController.getPrestadorById);
+
 
 //---------------------------------------------------------------------USERS
 routes.get('/users', UserController.index);
@@ -41,6 +52,7 @@ routes.post('/users', celebrate({
     [Segments.BODY]: Joi.object().keys({
         name: Joi.string().required(),
         password: Joi.string().required(),
+        whatsapp: Joi.string().required(),
         email: Joi.string().required().email(),
         tipo: Joi.string().required(),        
     })
